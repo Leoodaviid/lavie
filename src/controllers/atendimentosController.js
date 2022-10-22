@@ -1,11 +1,16 @@
 const {
-    Atendimentos
+    Atendimentos,
+    Psicologos,
+    Pacientes
 } = require("../models")
 
 const AtendimentosController = {
     async listarAtendimentos(req, res) {
 
-        const listagemAtendimentos = await Atendimentos.findAll();
+        const listagemAtendimentos = await Atendimentos.findAll({
+            includes: Psicologos,
+            Pacientes,
+        });
 
         res.json(listagemAtendimentos);
 
@@ -24,20 +29,31 @@ const AtendimentosController = {
         res.json(listaAtendimento);
     },
 
-
     async cadastrarAtendimento(req, res) {
-        const {
-            id_psicologo,
-            data_atendimento,
-            observacao,
-        } = req.body;
+        try {
+            const {
+                data_atendimento,
+                observacao,
+                id_psicologo,
+                id_pacientes,
+            } = req.body;
 
-        const novoCadastro = await Atendimentos.create({
-            id_psicologo,
-            data_atendimento,
-            observacao,
-        });
-        res.json(novoCadastro);
+            const novoCadastro = await Atendimentos.create({
+                // id_psicologo,
+                // id_pacientes,
+                data_atendimento,
+                observacao,
+            });
+            const psicologo = await Psicologos.findByPk(id_psicologo);
+            const paciente = await Pacientes.findByPk(id_pacientes);
+
+            await novoCadastro.setPsicologos(psicologo);
+            await novoCadastro.seStPacientes(paciente);
+
+            res.json(novoCadastro);
+        } catch (error) {
+            return res.status(500).json("registro nao encontrado" + error)
+        }
     },
     async deletarAtendimentos(req, res) {
         const {
