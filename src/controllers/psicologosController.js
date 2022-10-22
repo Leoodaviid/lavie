@@ -26,37 +26,56 @@ const psicologosController = {
     // },
 
     async listarPsicologoId(req, res) {
-        const {
-            id
-        } = req.params;
+        try {
+            const {
+                id
+            } = req.params;
 
-        const listaPsicologo = await psicologos.findOne({
-            where: {
-                id,
-            }
-        });
-        res.json(listaPsicologo);
+            const listaPsicologo = await psicologos.findOne({
+                where: {
+                    id,
+                }
+            });
+            if (!listaPsicologo) {
+                return res.status(404).json({
+                    message: "Id não encontrado"
+                })
+            };
+            res.status(200).json(listaPsicologo);
+        } catch (error) {
+
+        }
     },
 
 
     async cadastrarPsicologos(req, res) {
-        const {
-            nome,
-            email,
-            apresentacao,
-            senha,
-        } = req.body;
+        try {
+            const {
+                nome,
+                email,
+                apresentacao,
+                senha,
+            } = req.body;
 
-        const newSenha = bcrypt.hashSync(senha, 10);
+            const newSenha = bcrypt.hashSync(senha, 10);
 
 
-        const novoCadastro = await psicologos.create({
-            nome,
-            email,
-            apresentacao,
-            senha: newSenha,
-        });
-        res.json(novoCadastro);
+            const novoCadastro = await psicologos.create({
+                nome,
+                email,
+                apresentacao,
+                senha: newSenha,
+            });
+            if (!novoCadastro) {
+                return res.status(400).json({
+                    message: "Erro na requisição"
+                })
+            };
+            res.status(201).json(novoCadastro);
+        } catch (error) {
+
+        }
+
     },
     async deletarPsicologos(req, res) {
         const {

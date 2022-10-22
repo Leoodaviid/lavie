@@ -26,6 +26,8 @@ routes.delete("/pacientes/:id", pacientesController.deletarPacientes);
 routes.post("/psicologos/login", authLoginValidation, authController.login);
 
 
-routes.post("/atendimentos/criar", atendimentosController.cadastrarAtendimento);
+routes.post("/atendimentos", atendimentosController.cadastrarAtendimento);
+routes.get("/atendimentos", atendimentosController.listarAtendimentos);
+routes.get("/atendimentos/:id", atendimentosController.listarAtendimentoId);
 
 module.exports = routes;

@@ -55,18 +55,18 @@ const AtendimentosController = {
             return res.status(500).json("registro nao encontrado" + error)
         }
     },
-    async deletarAtendimentos(req, res) {
-        const {
-            id
-        } = req.params;
+    // async deletarAtendimentos(req, res) {
+    //     const {
+    //         id
+    //     } = req.params;
 
-        await Atendimentos.destroy({
-            where: {
-                id,
-            },
-        });
-        res.json("Cadastro deletado!")
-    },
+    //     await Atendimentos.destroy({
+    //         where: {
+    //             id,
+    //         },
+    //     });
+    //     res.json("Cadastro deletado!")
+    // },
 
     async atualizarAtendimentos(req, res) {
         const {

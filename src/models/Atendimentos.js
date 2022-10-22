@@ -9,7 +9,7 @@ const Pacientes = require("./Pacientes")
 
 
 const Atendimentos = db.define("Atendimentos", {
-    id_atendimento: {
+    id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
